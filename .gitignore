@@ -27,3 +27,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/.idea/artifacts/Aindrea_jar.xml
+/src/main/resources/META-INF/MANIFEST.MF
