@@ -13,7 +13,7 @@ public class ColorPrint {
 
     static {
         // 设置默认语言为中文
-        i18n.setLanguage(I18n.Chinese);
+        I18n.setLanguage(I18n.Chinese);
     }
 
     public static String simpleFmt(String[][] kw, String arg) {
@@ -63,9 +63,6 @@ public class ColorPrint {
         return textOk.toString();
     }
 
-    /*
-     * WARNING - Removed try catching itself - possible behaviour change.
-     */
     public static void printWithInfo(String text, String info, boolean needLog) {
         lock.lock();
         try {
@@ -134,9 +131,6 @@ public class ColorPrint {
         }
     }
 
-    /*
-     * WARNING - Removed try catching itself - possible behaviour change.
-     */
     public static String fmtInfo(String text, String info) {
         lock.lock();
         try {
@@ -161,9 +155,6 @@ public class ColorPrint {
         }
     }
 
-    /*
-     * WARNING - Removed try catching itself - possible behaviour change.
-     */
     public static void cLog(String inf, String msg) {
         lock.lock();
         try {

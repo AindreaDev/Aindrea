@@ -16,6 +16,5 @@ public class Main {
         System.setProperty("file.encoding","UTF-8");
         LanguageConfig Language = new LanguageConfig();
         new BasicWorkPath(Path.of(Aindrea.AindreaWorkPath));
-//        ColorPrint.printLoad(I18n.bundle.getString("retce.main.title1"));
     }
 }
