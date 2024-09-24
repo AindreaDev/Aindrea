@@ -1,12 +1,15 @@
-package com.aindrea.com.aindrea.utils;
+package com.aindrea.aindrea.utils;
 
-import com.aindrea.com.aindrea.I18n;
-import com.aindrea.com.aindrea.logging.ColorPrint;
+import com.aindrea.aindrea.I18n;
+import com.aindrea.aindrea.logging.ColorPrint;
 
 import java.util.Scanner;
 
 public class LanguageConfig {
     public LanguageConfig() {
+//        if (BasicWorkPath.exists(Paths.get(Aindrea.AindreaWorkPath, "配置文件", "语言配置.json"))) {
+//
+//        }
         ColorPrint.printWithInfo("§d" + "Since Aindrea is adapted for i18n (internationalization), Aindrea requires you to select the language you are most familiar with.\n[ 0 ] 简体中文\n[ 1 ] English", "§d i18n ", true);
         System.out.print(ColorPrint.fmtInfo("§d" + "Please select the language you use most often: ", "§3 i18n "));
         Scanner scanner = new Scanner(System.in);

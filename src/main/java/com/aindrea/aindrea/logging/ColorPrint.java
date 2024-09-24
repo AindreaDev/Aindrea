@@ -1,6 +1,6 @@
-package com.aindrea.com.aindrea.logging;
+package com.aindrea.aindrea.logging;
 
-import com.aindrea.com.aindrea.I18n;
+import com.aindrea.aindrea.I18n;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

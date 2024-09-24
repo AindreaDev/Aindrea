@@ -1,4 +1,4 @@
-package com.aindrea.com.aindrea;
+package com.aindrea.aindrea;
 
 import java.nio.file.FileSystems;
 

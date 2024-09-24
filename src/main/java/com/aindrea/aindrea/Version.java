@@ -1,4 +1,4 @@
-package com.aindrea.com.aindrea;
+package com.aindrea.aindrea;
 
 public class Version {
     public static final String Version = "V0.0.1.240923_Base"; // 综合版本号

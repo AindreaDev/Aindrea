@@ -1,4 +1,4 @@
-package com.aindrea.com.aindrea;
+package com.aindrea.aindrea;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

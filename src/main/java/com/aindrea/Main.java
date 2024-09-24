@@ -1,6 +1,10 @@
-package com.aindrea.com;
+package com.aindrea;
 
-import com.aindrea.com.aindrea.utils.LanguageConfig;
+import com.aindrea.aindrea.Aindrea;
+import com.aindrea.aindrea.utils.BasicWorkPath;
+import com.aindrea.aindrea.utils.LanguageConfig;
+
+import java.nio.file.Path;
 
 /**
  * author: xingchen
@@ -11,6 +15,7 @@ public class Main {
     public static void main(String[] args) {
         System.setProperty("file.encoding","UTF-8");
         LanguageConfig Language = new LanguageConfig();
+        new BasicWorkPath(Path.of(Aindrea.AindreaWorkPath));
 //        ColorPrint.printLoad(I18n.bundle.getString("retce.main.title1"));
     }
 }
