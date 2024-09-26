@@ -30,5 +30,6 @@ public class LanguageConfig {
                 ColorPrint.printWar("未识别到正确的选项，将自动选择语言: 简体中文(Chinese)");
                 break;
         }
+        scanner.close();
     }
 }
