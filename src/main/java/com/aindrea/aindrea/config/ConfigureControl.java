@@ -16,9 +16,11 @@ public class ConfigureControl {
     public static boolean WorksNormally = false;
     public static Scanner ConfigureReader = null;
     public static int State = ConfigState.not_opened;
+    private static File lockFile = null;
 
     public ConfigureControl(Path ConfigurePath) {
         ConfigureFile = ConfigurePath.toFile();
+        lockFile = new File(ConfigureFile.getParent(), ConfigureFile.getName() + ".lock");
         if (!initializeAndReadConfigurationFile()) {
             State = ConfigState.abnormal;
         } else {
@@ -39,6 +41,17 @@ public class ConfigureControl {
                 return false;
             }
         }
+
+        try {
+            if (!lockFile.createNewFile()) {
+                ColorPrint.printErr(String.format(I18n.bundle.getString("aindrea.config.control.lock_file.exists"), lockFile.getName(), lockFile.toPath()));
+                return false;
+            }
+        } catch (IOException error) {
+            ColorPrint.printErr(String.format(I18n.bundle.getString("aindrea.config.control.lock_file.error"), lockFile.getName(), error.getMessage()));
+            return false;
+        }
+
         try {
             ConfigureReader = new Scanner(ConfigureFile);
         } catch (FileNotFoundException error) {
@@ -47,4 +60,24 @@ public class ConfigureControl {
         }
         return true;
     }
+
+    public static boolean ReadConfigurationFile() {
+        if (!WorksNormally) {
+            ColorPrint.printErr(String.format(I18n.bundle.getString("aindrea.config.control.read_config.error"), ConfigureFile.getName()));
+            return false;
+        }
+        while (ConfigureReader.hasNextLine()) {
+            String data = ConfigureReader.nextLine();
+        }
+        return true;
+    }
+
+    public static void releaseLock() {
+        if (lockFile != null && lockFile.exists()) {
+            if (!lockFile.delete()) {
+                ColorPrint.printErr(String.format(I18n.bundle.getString("aindrea.config.control.lock_file.delete_error"), lockFile.getName()));
+            }
+        }
+    }
+
 }
