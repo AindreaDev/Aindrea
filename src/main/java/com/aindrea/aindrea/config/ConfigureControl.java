@@ -1,12 +1,12 @@
 package com.aindrea.aindrea.config;
 
+import com.aindrea.aindrea.Aindrea;
 import com.aindrea.aindrea.I18n;
 import com.aindrea.aindrea.logging.ColorPrint;
 import com.aindrea.aindrea.utils.BasicWorkPath;
+import com.aindrea.aindrea.utils.ProcessUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Path;
 import java.util.Scanner;
 
@@ -43,10 +43,26 @@ public class ConfigureControl {
         }
 
         try {
+            if (lockFile.exists()) {
+                String existingPid = readLockFile();
+                if (existingPid != null && ProcessUtils.isProcessRunning(existingPid)) {
+                    ColorPrint.printErr(String.format(I18n.bundle.getString("aindrea.config.control.lock_file.exists"), lockFile.getName(), lockFile.toPath()));
+                    return false;
+                } else {
+                    if (!lockFile.delete()) {
+                        ColorPrint.printErr(String.format(I18n.bundle.getString("aindrea.config.control.lock_file.delete_error"), lockFile.getName()));
+                        return false;
+                    }
+                }
+            }
+
             if (!lockFile.createNewFile()) {
                 ColorPrint.printErr(String.format(I18n.bundle.getString("aindrea.config.control.lock_file.exists"), lockFile.getName(), lockFile.toPath()));
                 return false;
             }
+
+            writePidToLockFile(String.valueOf(Aindrea.AindreaPID));
+
         } catch (IOException error) {
             ColorPrint.printErr(String.format(I18n.bundle.getString("aindrea.config.control.lock_file.error"), lockFile.getName(), error.getMessage()));
             return false;
@@ -61,6 +77,23 @@ public class ConfigureControl {
         return true;
     }
 
+    private static String readLockFile() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(lockFile))) {
+            return reader.readLine();
+        } catch (IOException e) {
+            ColorPrint.printErr(String.format(I18n.bundle.getString("aindrea.config.control.lock_file.read_error"), lockFile.getName(), e.getMessage()));
+            return null;
+        }
+    }
+
+    private static void writePidToLockFile(String pid) {
+        try (FileWriter writer = new FileWriter(lockFile)) {
+            writer.write(pid);
+        } catch (IOException e) {
+            ColorPrint.printErr(String.format(I18n.bundle.getString("aindrea.config.control.lock_file.write_error"), lockFile.getName(), e.getMessage()));
+        }
+    }
+
     public static boolean ReadConfigurationFile() {
         if (!WorksNormally) {
             ColorPrint.printErr(String.format(I18n.bundle.getString("aindrea.config.control.read_config.error"), ConfigureFile.getName()));
@@ -68,6 +101,7 @@ public class ConfigureControl {
         }
         while (ConfigureReader.hasNextLine()) {
             String data = ConfigureReader.nextLine();
+            new ConfigParse(data);
         }
         return true;
     }
@@ -79,5 +113,4 @@ public class ConfigureControl {
             }
         }
     }
-
 }

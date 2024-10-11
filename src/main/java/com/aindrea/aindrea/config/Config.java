@@ -10,13 +10,28 @@ import java.util.HashMap;
 
 public class Config {
     public static final Path WorkPath = Aindrea.AindreaWorkPath;
-    public static final ArrayList<Object> ConfigurePool = new ArrayList<>();
+    private static final ArrayList<Object> ConfigurePool = new ArrayList<>();
+
+    public static boolean RegisterConfiguration(String name, Path path, HashMap default_type, HashMap default_data) {
+        ConfigurePool.add(new HashMap<String, Object>() {{
+            put("name", name);
+            put("path", Paths.get(String.valueOf(WorkPath), String.valueOf(path)));
+            put("control", new ConfigureControl(Paths.get(String.valueOf(WorkPath), String.valueOf(path))));
+            put("default_type",default_type);
+            put("default_data",default_data);
+            put("version", ConfigureControl.ControlVersion);
+            put("enabled", true);
+        }});
+        return false;
+    }
 
     public static boolean RegisterDefaultConfiguration() {
         ConfigurePool.add(new HashMap<String, Object>() {{
             put("name", "LanguageSettings");
             put("path", Paths.get(String.valueOf(WorkPath), I18n.bundle.getString("aindrea.work.path.config.name"), "lang.cfg"));
             put("control", new ConfigureControl(Paths.get(String.valueOf(WorkPath), I18n.bundle.getString("aindrea.work.path.config.name"), "lang.cfg")));
+            put("default_type", new HashMap<String, Object>().put("language", String.class));
+            put("default_data", new HashMap<String, String>().put("language", I18n.Chinese));
             put("version", ConfigureControl.ControlVersion);
             put("enabled", true);
         }});
@@ -28,6 +43,7 @@ public class Config {
             if (config instanceof HashMap) {
                 HashMap<String, Object> configMap = (HashMap<String, Object>) config;
                 ConfigureControl control = (ConfigureControl) configMap.get("control");
+                control.ReadConfigurationFile();
             }
         }
     }

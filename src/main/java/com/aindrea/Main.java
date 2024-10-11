@@ -15,6 +15,7 @@ public class Main {
         System.setProperty("file.encoding","UTF-8");
         LanguageConfig Language = new LanguageConfig();
         Config.RegisterDefaultConfiguration();
+        Config.LoadAllConfigurations();
         new BasicWorkPath(Aindrea.AindreaWorkPath);
     }
 }
